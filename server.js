@@ -6,10 +6,12 @@ var express = require("express");
 var app = express();
 let bodyParser = require("body-parser");
 
+// *************************************************************
 // comment out these two lines when ready to be deployed
 // necessary b/c port keeps changing when server is restarted
 let developmentPort = 3000;
 process.env.PORT = developmentPort;
+// *************************************************************
 
 // parses HTTP encodings
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,7 +35,9 @@ app.get("/api/hello", function(req, res) {
   res.json({ greeting: "hello API" });
 });
 
-// Timestamp API -------------------------------
+// *************************************************************
+// Timestamp API
+// *************************************************************
 
 // Helpers
 const unixToUTC = unix_timestamp => new Date(unix_timestamp * 1);
@@ -44,15 +48,15 @@ const endpointCreator = date => {
 };
 
 // User Story 3
-// GET /api/timestamp/ | { unix: currentTimeInUnix, utc: currentTimeInUTC }
+// GET /api/timestamp/ => { unix: currentTimeInUnix, utc: currentTimeInUTC }
 app.get("/api/timestamp", (req, res) => {
   let timestamp = endpointCreator(new Date());
   res.json(timestamp);
 });
 
 // User story 1
-// GET /api/timestamp/2015-12-25 | { unix: 1451001600000, utc: "Fri, 25 Dec 2015 00:00:00 GMT" }
-// GET /api/timestamp/1450137600 | { unix: 1450137600, utc: "Sat, 17 Jan 1970 18:48:57 GMT" }
+// GET /api/timestamp/2015-12-25 => { unix: 1451001600000, utc: "Fri, 25 Dec 2015 00:00:00 GMT" }
+// GET /api/timestamp/1450137600000 => { unix: 1450137600000, utc: "Tue, 15 Dec 2015 00:00:00 GMT" }
 app.get("/api/timestamp/:date_string", (req, res) => {
   let { date_string } = req.params;
 
